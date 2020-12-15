@@ -1,17 +1,25 @@
 package persona.mundo;
 
+/**
+ * Clase que crea una persona.
+ */
 public class Persona {
 	
+	//----------------------------------------------
 	//Atributos - Características que tiene la persona
+	//----------------------------------------------
+	
 	private int edad; //la edad es de tipo entero. Se escribe int
 	private char genero; // el genero puede ser m y f --- 
 	private boolean esSoltero; // ser soltero es verdadero o falso
 	private String colorDePiel; //
-	
 	Trabajo trabajoActual;
 	
-	//Constructor
-	// El constructor necesita eventualmente parámetros
+	//----------------------------------------------
+	//Constructor	
+	// El constructor necesita (eventualmente) parámetros
+	//----------------------------------------------
+	
 	public Persona (int pEdad, char pGenero, boolean pEsSoltero, String pColorDePiel, String pNombreOficio, String pNombreEmpresa, int pDuracion) {
 		edad = pEdad;
 		genero = pGenero;
@@ -20,7 +28,10 @@ public class Persona {
 		trabajoActual = new Trabajo(pNombreOficio, pNombreEmpresa, pDuracion);
 	}
 	
+	//----------------------------------------------
 	//Métodos - Cosas que hace la persona
+	//----------------------------------------------
+	
 	public int darEdad( ) {
 		return edad; 
 	}
