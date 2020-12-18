@@ -7,7 +7,7 @@ public class Trabajo {
 	private String nombreEmpresa;
 	private int duracion;
 	private int salario;
-	
+
 	//Constructor
 	public Trabajo(String nombreOficioRealizado, String pNombreEmpresa, int pDuracion) {
 		this.nombreOficioRealizado = nombreOficioRealizado;
@@ -29,10 +29,14 @@ public class Trabajo {
 		return duracion;
 	}
 	
-//	public int darSalario() {
-//		return salario;
-//	}
-	
+	public int darSalario() {
+		return salario;
+	}
+
+	public void cambiarSalario(int pSalario) {
+		this.salario = pSalario;
+	}
+		
 	public void cambiarNombreOficioRealizado( String pNombreOficioRealizado) {
 		nombreOficioRealizado = pNombreOficioRealizado;
 	}
@@ -43,7 +47,5 @@ public class Trabajo {
 	
 	public void cambiarDuracion(int pDuracion) {
 		duracion = pDuracion;
-	}
-	
-	
+	}	
 }

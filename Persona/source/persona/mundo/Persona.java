@@ -80,6 +80,8 @@ public class Persona {
 		Persona persona1 = new Persona( 21, 'f', true, "Trigueño", "Contador", "IBM", 4);
 		Persona persona2 = new Persona( 40, 'f', false, "Albino", "Tejedor", "Lanas S.A.", 15);
 		
+		//Cómo le pedimos a un objeto que nos entregue una cierta información?
+		//Llamamos a la referencia del objeto y luego un punto.
 		System.out.println(persona1.darColorDePiel());
 		System.out.println( "El trabajo actual de la persona 2 es " + 
 				persona2.darTrabajoActual().darNombreEmpresa() );
