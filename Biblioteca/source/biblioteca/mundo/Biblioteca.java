@@ -88,6 +88,9 @@ public class Biblioteca {
 		return this.numLibros;
 	}
 
+	
+	
+	
 	/**
 	 * Cuenta la cantidad de salas disponibles
 	 * 
