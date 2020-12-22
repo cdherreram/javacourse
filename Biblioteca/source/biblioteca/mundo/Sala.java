@@ -29,6 +29,14 @@ public class Sala {
 		this.idSala = idSala;
 		this.capacidadMax = capacidadMax;
 		this.disponible = disponible;
+		this.disp = null;
+	}
+	
+	public Sala(int idSala) {
+		this.idSala = idSala;
+		this.capacidadMax = 5;
+		this.disponible = true;
+		this.disp = null;
 	}
 
 	//----------------------
@@ -66,16 +74,23 @@ public class Sala {
 	 * @param disp Disponibilidad: Objeto de la clase Disponibilidad que informa cómo se ocupó
 	 * 								la sala
 	 */
-	public void ocuparSala(Disponibilidad disp ) {
+	public void ocuparSala(Disponibilidad pDisp ) {
 		//TODO: Completar el método que cambie la sala a ocupada y cree el objeto disp
+		if ( this.disponible == true && pDisp.getCantidadPersonas() <= this.capacidadMax ) {
+			this.disponible = false;
+			this.disp = pDisp;
+		} else {
+			System.out.println("No se pudo hacer la reserva");
+		}
 	}
-	
 	
 	/**
 	 * Método que asigna un valor null al parámetro disp.
 	 */
 	public void desocuparSala() {
 		//TODO: Cambiar el método para que informe el cambio de disponibilidad de la sala.
+		this.disponible = true;
+		this.disp = null;
 	}
 	
 	/**
@@ -85,6 +100,8 @@ public class Sala {
 	 */
 	public boolean sobrepasaCapacidad(int numPersonas) {
 		//TODO: Retornar true si la cantidad de personas a ingresar a la sala supera la capacidad.
+		if( this.capacidadMax >= numPersonas)
+			return false;
 		
 		return true;
 	}

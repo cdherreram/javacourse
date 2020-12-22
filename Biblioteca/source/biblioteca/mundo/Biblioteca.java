@@ -1,5 +1,8 @@
 package biblioteca.mundo;
 
+import java.util.*;
+
+import biblioteca.mundo.Libro.Categoria;
 // Crear una biblioteca con:
 //1. Salas : Max 10    ----> Disponibilidad
 //2. Libros.
@@ -27,6 +30,7 @@ public class Biblioteca {
 	private int numSalasDisponibles;
 	
 	private Sala[ ] salas;  // Arreglo de salas  |   | S  | S  | S  | S   | S  | 
+	private ArrayList<Libro> libros;
 	
 	//--------------------------
 	//Constructor
@@ -50,6 +54,14 @@ public class Biblioteca {
 		for( int i = 0; i < Biblioteca.NUM_MAX_SALAS; i++) {
 			salas[i] = new Sala(1,10,true);
 		}
+		
+		//Clase - referencia - new - constructor
+		libros = new ArrayList<Libro>(); //Se inicializa el ArrayList
+		Fecha fecha1 = new Fecha(20,5,1995);
+		Libro libro1 = new Libro( 1 , "Zoro" , 0 , 250 , 300, fecha1, Categoria.SIN_DETERMINAR);
+		adicionarLibro(libro1);
+		Libro libro2 = new Libro(2, "Juanito Alimaña");
+		adicionarLibro(libro2);
 	}
 	
 	//--------------------------
@@ -106,7 +118,7 @@ public class Biblioteca {
 			}
 		}
 		return contador;
-	}	
+	}
 	
 	/**
 	 * Método que adiciona un libro a la lista de libros
@@ -116,7 +128,7 @@ public class Biblioteca {
 	 */
 	public boolean adicionarLibro(Libro pLibro) {
 		//TODO: Completar el método
-		
+		libros.add(pLibro);
 		return true;
 	}
 	
@@ -158,30 +170,51 @@ public class Biblioteca {
 	 */
 	public int contarLibros( ) {
 		//TODO: Completar el método
+//		int contador = 0;
+//		for( Libro libro : libros) {
+//			contador++;
+//		}
+//		return contador;
 		
-		return 0;
+//		int contador = libros.size();
+//		return contador;
+		return libros.size();
 	}
+	
 	
 	/**
 	 * Método que busca un libro de acuerdo a su nombre.
 	 * @param nombreLibro Nombre del libro: Nombre del libro.
 	 * @return Retorna true si encuentra el libro.
 	 */
+	//Overloading
 	public boolean buscarLibro(String nombreLibro) {
 		//TODO: Completar el método
-		
-		return true;
+		for (Libro libro : libros) {
+			if(libro.getNombre().equalsIgnoreCase(nombreLibro)) {
+				return true;
+			}
+		}
+		return false;
 	}
+	
+	// No se pueden diferenciar métodos solamente por lo que retornar
+	// public int buscarLibro(int idLibro) 
 	
 	/**
 	 * Método que busca un libro de acuerdo a su id.
-	 * @param idLibro Id libro: Identificador del libro
-	 * @return Retorna true si encuentra el libro.
+	 * @param idLibro 
+	 * @return True si encontró el libro.
 	 */
+	//Overloading
 	public boolean buscarLibro(int idLibro) {
 		//TODO: Completar el método
-		
-		return true;
+		for (Libro libro : libros) {
+			if(libro.getId() == idLibro) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
