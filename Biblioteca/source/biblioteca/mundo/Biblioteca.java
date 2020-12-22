@@ -58,7 +58,7 @@ public class Biblioteca {
 		//Clase - referencia - new - constructor
 		libros = new ArrayList<Libro>(); //Se inicializa el ArrayList
 		Fecha fecha1 = new Fecha(20,5,1995);
-		Libro libro1 = new Libro( 1 , "Zoro" , 0 , 250 , 300, fecha1, Categoria.SIN_DETERMINAR);
+		Libro libro1 = new Libro( 1 , "Zoro" , 0 , 250 , (float) 300.1, fecha1, Categoria.SIN_DETERMINAR);
 		adicionarLibro(libro1);
 		Libro libro2 = new Libro(2, "Juanito Alimaña");
 		adicionarLibro(libro2);
