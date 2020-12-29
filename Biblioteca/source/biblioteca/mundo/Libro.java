@@ -27,7 +27,7 @@ public class Libro {
 	//Constructor
 	//---------------------
 	
-	// Overloading 
+	// Overloading - Sobrecarga 
 	public Libro ( int id, String nombre ) {
 		this.id = id;
 		this.nombre = nombre;

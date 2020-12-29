@@ -1,6 +1,8 @@
 package biblioteca.mundo;
 
 import java.util.*;
+import java.io.*;
+
 
 import biblioteca.mundo.Libro.Categoria;
 // Crear una biblioteca con:
@@ -29,7 +31,7 @@ public class Biblioteca {
 	private int numLibros;
 	private int numSalasDisponibles;
 	
-	private Sala[ ] salas;  // Arreglo de salas  |   | S  | S  | S  | S   | S  | 
+	private Sala salas[ ];  // Arreglo de salas  |   | S  | S  | S  | S   | S  | 
 	private ArrayList<Libro> libros;
 	
 	//--------------------------
@@ -52,16 +54,45 @@ public class Biblioteca {
 		
 		salas = new Sala[Biblioteca.NUM_MAX_SALAS]; //Contenedores de tamaño fijo.
 		for( int i = 0; i < Biblioteca.NUM_MAX_SALAS; i++) {
-			salas[i] = new Sala(1,10,true);
+			salas[i] = new Sala(1 + i,10,true); //Los id de la sala irán de 1 a 10.
 		}
 		
 		//Clase - referencia - new - constructor
 		libros = new ArrayList<Libro>(); //Se inicializa el ArrayList
-		Fecha fecha1 = new Fecha(20,5,1995);
-		Libro libro1 = new Libro( 1 , "Zoro" , 0 , 250 , (float) 300.1, fecha1, Categoria.SIN_DETERMINAR);
-		adicionarLibro(libro1);
-		Libro libro2 = new Libro(2, "Juanito Alimaña");
-		adicionarLibro(libro2);
+//		Fecha fecha1 = new Fecha(20,5,1995);
+//		Libro libro1 = new Libro( 1 , "Zoro" , 0 , 250 , (float) 300.1, fecha1, Categoria.SIN_DETERMINAR); //Varios constructores
+//		adicionarLibro(libro1);
+//		
+//		Libro libro2 = new Libro(2, "Juanito Alimaña");
+//		adicionarLibro(libro2);
+		
+		// Libreria que tengo que importarla: java.io
+		// BufferedReader
+		
+		
+		/*
+		 *       s = 1; "Hola"; 6; 8    ----> s.split(";") ----->   |  1  |  "Hola"  |  6 |  8  |  
+		 */
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("data/datos.csv"));
+			String linea;     // 1; Poema del Gilgamesh
+			linea = br.readLine();
+			while ( linea != null ) {
+				String[] datos = linea.split(";");  // 1; 4; 6; 8 ---> |  1   |   4   | 6   | 8  |
+				System.out.println(datos[1]);
+				int id = Integer.parseInt(datos[0]);
+				String nombreLibro = datos[1];
+				
+				//Hay que hacer un cast para datos[0]
+				Libro libro1 = new Libro( id, nombreLibro);
+				adicionarLibro(libro1);
+				linea = br.readLine();
+			}
+		} catch (Exception e) {
+			System.out.println("Hubo problema");
+		}
+		
 	}
 	
 	//--------------------------
@@ -122,20 +153,37 @@ public class Biblioteca {
 	
 	/**
 	 * Método que adiciona un libro a la lista de libros
-	 * Se debe verificar que el libro no exista en la lista ya. 
+	 * <pre:> Se debe verificar que el libro no exista en la lista ya.
 	 * @param pLibro Libro: libro a adicionar.
 	 * @return Retorna true si se adicionó el libro.
 	 */
 	public boolean adicionarLibro(Libro pLibro) {
 		//TODO: Completar el método
-		libros.add(pLibro);
-		return true;
+		boolean seAdicionoLibro = false;
+		
+		if( buscarLibro ( pLibro.getNombre()) == false ) {
+			libros.add(pLibro);
+			numLibros++;
+			seAdicionoLibro = true;
+		}
+		
+		//numLibros = numLibros +1;
+		//this.numLibros = this.numLibros + 1;
+		//setNumLibros(this.numLibros + 1);
+		return seAdicionoLibro;
 	}
 	
 	//TODO: Cómo sería un método adicionarLibro que, en vez de recibir un objeto Libro recibiera
 	// los datos del libro? Completar este método y documentarlo.
 	
-	
+	//overloading
+	public boolean adicionarLibro( int id , String nombre ) {
+		
+		Libro mi_libro = new Libro(id, nombre);
+		adicionarLibro( mi_libro );
+		
+		return true;
+	}
 	
 	
 	/**
@@ -145,8 +193,16 @@ public class Biblioteca {
 	 */
 	public boolean pedirPrestadaSala(Disponibilidad pDisp) {
 		//TODO: Completar el método
-		
-		return true;
+		//Escribir un método para buscar sala disponible
+		int salaDisponible = buscarSalaDisponible(); // Id van de 1 a 10
+		if ( salaDisponible != 0) {
+			boolean seOcupoSala = salas[ salaDisponible - 1 ].ocuparSala(pDisp);    // Posicion de 0 a 9
+			if ( seOcupoSala == true ) 
+				numSalasDisponibles -= 1;
+			return seOcupoSala;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
@@ -160,6 +216,7 @@ public class Biblioteca {
 	public boolean pedirPrestadaSala(String pNombreResponsable, int pCantidadPersonas, 
 			int pTiempoOcupado) {
 		//TODO: Completar el método
+		
 		
 		return true;
 	}
@@ -219,11 +276,14 @@ public class Biblioteca {
 	
 	/**
 	 * Método que desocupa una sala de acuerdo a su id.
-	 * @param dSala Id Sala: Identificador de la sala a entregar
+	 * @param idSala Id Sala: Identificador de la sala a entregar
 	 * @return 
 	 */
-	public boolean entregarSala(int dSala) {
+	public boolean entregarSala(int idSala) {     //1. Ponerle null a disp en la clase Sala
+												 //2. numSalasDisponibles aumenta
 		//TODO: Completar el método
+		salas[idSala - 1].desocuparSala();
+		this.numSalasDisponibles--;
 		
 		return true;
 	}
@@ -232,8 +292,16 @@ public class Biblioteca {
 	 * Método que busca en la lista de salas si hay una sala disponible
 	 * @return Retorna el id de la sala disponible o 0 si no encuentra.
 	 */
-	public int buscarSalaDisponible() {
+	public int buscarSalaDisponible( ) {
 		//TODO: Completar el método
+		
+		if ( numSalasDisponibles >= 1 ) {
+			for ( int i = 0; i < salas.length; i++) {
+				if ( salas[i].getDisponible() == true) {
+					return salas[i].getIdSala();
+				}
+			}
+		}
 		
 		return 0;
 	}
@@ -243,9 +311,18 @@ public class Biblioteca {
 	//-----------------------------
 	
 	public static void main(String[ ] args) {
+		
 		Biblioteca biblioteca1 = new Biblioteca("Biblioteca Nacional", 0, 0, Biblioteca.NUM_MAX_SALAS);
+		
 		System.out.println("El número de salas disponibles es " + biblioteca1.contarSalasDisponibles());
+		
+		//JUnit para probar clases.
+		
+		System.out.println("El número de libros en la biblioteca es " + biblioteca1.contarLibros());
+		
+		System.out.println("El nombre del libro en la posicion 10 es " + biblioteca1.libros.get(9).getNombre());
+		// Si tengo un array primitivo, uso [ ]
+		// Si tengo un ArrayList, necesito llamar al método get
+		//System.out.println("El nombre del primer libro es: " + biblioteca1.libros.get(0).getNombre() );
 	}
-	
-	
 }

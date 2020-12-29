@@ -74,15 +74,25 @@ public class Sala {
 	 * @param disp Disponibilidad: Objeto de la clase Disponibilidad que informa cómo se ocupó
 	 * 								la sala
 	 */
-	public void ocuparSala(Disponibilidad pDisp ) {
+	public boolean ocuparSala(Disponibilidad pDisp ) {
 		//TODO: Completar el método que cambie la sala a ocupada y cree el objeto disp
 		if ( this.disponible == true && pDisp.getCantidadPersonas() <= this.capacidadMax ) {
 			this.disponible = false;
 			this.disp = pDisp;
+			return true;
 		} else {
 			System.out.println("No se pudo hacer la reserva");
+			return false;
 		}
 	}
+	
+	/*
+	 * If : mire si lo siguiente es verdad: El presidente tiene apellido Manrique {
+	 * 	    imprima que sí es cierto
+	 * } else {
+	 * 		imprima que no es cierto
+	 * }
+	 */
 	
 	/**
 	 * Método que asigna un valor null al parámetro disp.
