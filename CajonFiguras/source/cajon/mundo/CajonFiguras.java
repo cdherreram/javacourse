@@ -3,6 +3,7 @@
  */
 package cajon.mundo;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -10,6 +11,7 @@ import java.util.*;
  * @author Cristian David Herrera
  *
  */
+
 public class CajonFiguras {
 
 	private ArrayList<Figura> figuras;
@@ -21,6 +23,9 @@ public class CajonFiguras {
 	//TODO: Escribir el código del constructor que genere el ArrayList figuras
 	// vacío. Se debe documentar. No debe recibir nada por parámetro.
 	
+	public CajonFiguras ( ) {
+		figuras = new ArrayList<Figura>();
+	}
 	
 	//----------------
 	// Métodos
@@ -34,7 +39,24 @@ public class CajonFiguras {
 	 */
 	public String figuraConMayorPerimetro ( ) {
 		//TODO: Completar el método de acuerdo a la documentación.
-		return " ";
+		if ( figuras.isEmpty()) return "No hay figuras";
+		
+		Figura figuraTmp = figuras.get(0);
+		double perimetroMayor = figuraTmp.calcularPerimetro();
+		int indice = 0;
+		int lados = figuras.get(0).getNumLados();
+		
+		for ( int i = 0; i < figuras.size(); i++) {
+			if(figuras.get(i).calcularPerimetro() > perimetroMayor) {
+				figuraTmp = figuras.get(i);
+				perimetroMayor = figuras.get(i).calcularPerimetro();
+				indice = i;
+				lados = figuras.get(i).getNumLados();
+			}
+		}
+		
+		return "La figura con mayor perímetro tiene " + lados + " lados, perimetro de "
+				+ perimetroMayor + " y está en la posicion " + indice;
 	}
 	
 	/**
@@ -45,7 +67,17 @@ public class CajonFiguras {
 	 */
 	public String figuraConMayorPerimetro ( Figura pFigura1, Figura pFigura2) {
 		//TODO: Completar el método de acuerdo a la documentación.
-		return "";
+		if ( pFigura1.calcularPerimetro() > pFigura2.calcularPerimetro()) {
+			return "La figura con mayor perimetro es la figura 1 y tiene " +
+					pFigura1.calcularPerimetro() + " de perimetro y " +
+					pFigura1.getNumLados() + " lados.";
+		} else if ( pFigura1.calcularPerimetro() < pFigura2.calcularPerimetro() ) {
+			return "La figura con mayor perimetro es la figura 2 y tiene " +
+					pFigura2.calcularPerimetro() + " de perimetro y " +
+					pFigura2.getNumLados() + " lados.";
+		} else {
+			return "Ambas figuras tienen el mismo perímetro.";
+		}
 	}
 	
 	/**
@@ -54,7 +86,7 @@ public class CajonFiguras {
 	 */
 	public int calcularNumFiguras() {
 		//TODO: Completar el método de acuerdo a la documentación.
-		return 0;
+		return figuras.size();
 	}
 	
 	/**
@@ -65,7 +97,14 @@ public class CajonFiguras {
 	 */
 	public int calcularNumFiguras(int pNumLados) {
 		//TODO: Completar el método de acuerdo a la documentación.
-		return 0;
+		int contador = 0;
+		
+		for ( int i = 0; i < figuras.size(); i++) {
+			if ( figuras.get(i).getNumLados() == pNumLados) {
+				contador++;
+			}
+		}
+		return contador;
 	}
 	
 	/**
@@ -74,6 +113,7 @@ public class CajonFiguras {
 	 */
 	public void adicionarFigura ( Figura pFigura) {
 		//TODO: Completar el método de acuerdo a la documentación.
+		figuras.add(pFigura);
 	}
 	
 	/**
@@ -83,8 +123,16 @@ public class CajonFiguras {
 	 */
 	public void adicionarFigura (int pNumLados, Punto[] puntos) {
 		//TODO: Completar el método de acuerdo a la documentación.
+		Figura f = new Figura(pNumLados, puntos);
+		if ( f != null) {
+			figuras.add(f);
+		} else {
+			System.out.println("No se pudo adicionar figura.");
+		}
 	}
 	
+	
+	//TODO: Contar la cantidad de triángulos en el cajón de figuras.
 	
 	//-----------------
 	// Main del proyecto
@@ -96,8 +144,17 @@ public class CajonFiguras {
 	 */
 	public static void main(String[] args) {
 		CajonFiguras cajon = new CajonFiguras();
+		System.out.println(cajon.figuraConMayorPerimetro());
 		Figura figura1 = new Figura();
-		
+		System.out.println(figura1);
+		cajon.adicionarFigura(figura1);
+		figura1 = new Figura(3, 0,0, 0, 5, 5,0);
+		System.out.println(figura1);
+		cajon.adicionarFigura(figura1);
+		figura1 = new Figura(3, 0,3,6,-3,-2,-5);
+		System.out.println(figura1);
+		cajon.adicionarFigura(figura1);
+		System.out.println("Hay " + cajon.calcularNumFiguras() + " figuras.");
+		System.out.println(cajon.figuraConMayorPerimetro());
 	}
-
 }

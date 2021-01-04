@@ -62,12 +62,41 @@ public class Figura {
 		//TODO: Asignar a cada uno de los lados de la figura dos puntos consecutivos
 		//      en un ciclo for. Para no tener conflicto con los índices al iniciar
 		//		de nuevo el conteo, use el operador módulo %
+		for ( int i = 0; i < pNumLados; i++) {
+			lados[i] = new Lado(puntos[i%pNumLados], puntos[(i+1)%pNumLados]);
+		}
+		/*
+		 * pNumLados = 5
+		 * i = 0:
+		 * lados[0] = puntos[0 % 5] y puntos[1 % 5] 
+		 * i = 1:
+		 * lados[1] = puntos[1 % 5] y puntos[2 % 5]
+		 * i = 2:
+		 * lados[2] = puntos[2 % 5] y puntos[3 % 5]
+		 * i = 3:
+		 * lados[3] = puntos[3 % 5] y puntos[4 % 5]
+		 * i = 4:
+		 * lados[4] = puntos[4 % 5] y puntos[5 % 5]
+		 */
+		
 	}
 	
 	//TODO: (Opcional) Crear un constructor que cree un triángulo
 	// 		con parámetros numLados y las coordenadas de cada uno de los puntos.
 	//		
-	
+	public Figura ( int pNumLados, int x1, int y1, int x2, int y2, int x3, int y3) {
+		this.colorFigura = new Color();
+		this.numLados = pNumLados;
+		puntos = new Punto[numLados];
+		puntos[0] = new Punto(x1,y1);
+		puntos[1] = new Punto(x2,y2);
+		puntos[2] = new Punto(x3,y3);
+		
+		lados = new Lado[numLados];
+		lados[0] = new Lado(puntos[0], puntos[1]);
+		lados[1] = new Lado(puntos[1], puntos[2]);
+		lados[2] = new Lado(puntos[2], puntos[0]);
+	}
 
 	//---------------------------
 	// Métodos
@@ -113,7 +142,12 @@ public class Figura {
 		//TODO: Completar el método de acuerdo a la documentación.
 		//      Recuerde que cada uno de los lados tiene un método
 		//		para calcular su longitud.
-		return 0;
+		double perimetro = 0;
+		for ( Lado l : lados) {
+			perimetro += l.getLongitud();
+		}
+		
+		return perimetro;
 	}
 	
 	/**
@@ -122,7 +156,10 @@ public class Figura {
 	 */
 	public boolean esTriangulo() {
 		//TODO: Completar el método de acuerdo a la documentacion.
-		return true;
+		if ( lados.length == 3)
+			return true;
+		else
+			return false;
 	}
 	
 	/**
@@ -135,7 +172,21 @@ public class Figura {
 		//      Antes de determinar qué tipo de triángulo es, debe determinar
 		//      si la figura es un triángulo. Puede usar el método anterior.
 		
-		return null;
+		if ( !esTriangulo( ) ) return Tipo.OTRO;
+		
+		if ( lados[0].getLongitud() == lados[1].getLongitud()) {
+			if ( lados[0].getLongitud() == lados[2].getLongitud()) {
+				return Tipo.EQUILATERO;
+			} else {
+				return Tipo.ISOSCELES;
+			}
+		} else {
+			if ( lados[0].getLongitud() == lados[2].getLongitud()) {
+				return Tipo.ISOSCELES;
+			} else {
+				return Tipo.ESCALENO;
+			}
+		}
 	}
 
 	@Override
@@ -148,6 +199,4 @@ public class Figura {
 		else
 			return "La figura tiene " + getNumLados() + " lados y tiene un perimetro de " + calcularPerimetro()  + ".\n";
 	}
-	
-	
 }

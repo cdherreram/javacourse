@@ -41,6 +41,11 @@ public class Punto {
 	//      dimensión del espacio y un array primitivo con las coordenadas
 	//      del punto y lo asigne al array de coordenadas.
 	
+	public Punto ( int pDimension, int[] pCoordenadas) {
+		this.dimensionEspacio = pDimension;
+		coordenadas = pCoordenadas;
+	}
+	
 	
 	//-----------------------------
 	// Métodos
@@ -62,7 +67,7 @@ public class Punto {
 	 */
 	public int getCoordenadas( int pPosicionCoordenada) {
 		// TODO: Completar este método de acuerdo a la documentación.
-		return 0;
+		return coordenadas[pPosicionCoordenada];
 	}
 	
 	/**
@@ -80,6 +85,7 @@ public class Punto {
 	 */
 	public void setCoordenadas(int pPosicion, int pCoordenada) {
 		//TODO: Completar este método de acuerdo a la documentación.
+		coordenadas[pPosicion] = pCoordenada;
 	}
 
 	/**
@@ -103,6 +109,19 @@ public class Punto {
 		
 		//TODO: Completar el método para que retorne el cuadrante del punto.
 		//      Leer la documentación.
-		return 1;
+		
+		// Si está sobre alguno de los ejes, retorna 0.
+		if( coordenadas[0] == 0 || coordenadas[1] == 0) {
+			return 0;
+		}
+		
+		if ( coordenadas[0] > 0 && coordenadas[1] > 0)
+			return 1;
+		else if ( coordenadas[0] < 0 && coordenadas[1] > 0 )
+			return 2;
+		else if ( coordenadas[0] < 0 && coordenadas[1] < 0)
+			return 3;
+		else
+			return 4;
 	}
 }

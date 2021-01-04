@@ -8,6 +8,12 @@ package cajon.mundo;
 public class Lado {
 	
 	//------------------
+	// Constantes
+	//------------------
+
+	public final static int PUNTOS_POR_LADO = 2;
+	
+	//------------------
 	// Atributos
 	//------------------
 	private double longitud;
@@ -26,7 +32,7 @@ public class Lado {
 		
 		//TODO: Todo lado tiene dos puntos. Cree una constante llamada
 		//      PUNTOS_POR_LADO y asígnela al crear el array de puntos.
-		puntos = new Punto[2];
+		puntos = new Punto[Lado.PUNTOS_POR_LADO];
 		puntos[0] = new Punto(0,0);
 		puntos[1] = new Punto(1,1);
 		longitud = calcularLongitud();
@@ -41,6 +47,7 @@ public class Lado {
 		color = new Color();
 		//TODO: Aquí falta algo por hacer para el array puntos. ¿Qué será?
 		//      Hint: Mi error en la clase al construir el array.
+		puntos = new Punto[Lado.PUNTOS_POR_LADO];
 		puntos = pPuntos;
 		longitud = calcularLongitud();
 	}
@@ -54,6 +61,7 @@ public class Lado {
 	public Lado(Punto[] pPuntos, Color pColor) {
 		//TODO: Aquí falta algo por hacer para el array puntos. ¿Qué será?
 		//      Hint: Mi error en la clase al construir el array.
+		puntos = new Punto[Lado.PUNTOS_POR_LADO];
 		puntos = pPuntos;
 		color = pColor;
 		longitud = calcularLongitud();
@@ -68,10 +76,12 @@ public class Lado {
 	public Lado(Punto punto1, Punto punto2) {
 		//TODO: Aquí falta algo por hacer para el array puntos. ¿Qué será?
 		//      Hint: Mi error en la clase al construir el array.
+		puntos = new Punto[Lado.PUNTOS_POR_LADO];
 		puntos[0] = punto1;
 		puntos[1] = punto2;
 		color = new Color();
 		//TODO: Aquí falta hacer algo con longitud. Hint: revise los métodos anteriores.
+		longitud = calcularLongitud();
 	}
 	
 	/**
@@ -83,11 +93,14 @@ public class Lado {
 	public Lado(Punto punto1, Punto punto2, Color pColor) {
 		//TODO: Aquí falta algo por hacer para el array puntos. ¿Qué será?
 		//      Hint: Mi error en la clase al construir el array.
+		puntos = new Punto[Lado.PUNTOS_POR_LADO];
 		puntos[0] = punto1;
 		puntos[1] = punto2;
 		color = pColor;
 		//TODO: Aquí falta hacer algo con longitud. Hint: revise los métodos anteriores.
+		longitud = calcularLongitud();
 	}
+	
 	//------------------------
 	// Métodos
 	//------------------------
@@ -115,6 +128,17 @@ public class Lado {
 		//      Para calcular potencias, use la función Math.pow y para raíces use
 		//      Math.sqrt. Con el fin de hacerlo lo más general posible, trate de usar
 		//      un ciclo for sobre la dimension del espacio.
-		return 0.0;
+		
+		// Como sé que siempre un lado va a tener dos puntos, los saco por separado
+		Punto p1 = puntos[0];
+		Punto p2 = puntos[1];
+		
+		// Recorro sobre cada coordenada 
+		double tmp = 0;
+		for ( int i = 0; i < p1.getDimensionEspacio(); i++) {
+			tmp += Math.pow(p1.getCoordenadas(i) - p2.getCoordenadas(i),2 );
+		}
+		tmp = Math.sqrt(tmp);
+		return tmp;
 	}
 }
