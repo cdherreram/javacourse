@@ -59,39 +59,27 @@ public class Biblioteca {
 		
 		//Clase - referencia - new - constructor
 		libros = new ArrayList<Libro>(); //Se inicializa el ArrayList
-//		Fecha fecha1 = new Fecha(20,5,1995);
-//		Libro libro1 = new Libro( 1 , "Zoro" , 0 , 250 , (float) 300.1, fecha1, Categoria.SIN_DETERMINAR); //Varios constructores
-//		adicionarLibro(libro1);
-//		
-//		Libro libro2 = new Libro(2, "Juanito Alimaña");
-//		adicionarLibro(libro2);
 		
 		// Libreria que tengo que importarla: java.io
-		// BufferedReader
-		
-		
-		/*
-		 *       s = 1; "Hola"; 6; 8    ----> s.split(";") ----->   |  1  |  "Hola"  |  6 |  8  |  
-		 */
+		// BufferedReader - Para almacenar
+		// FileReader - Para leer el archivo
 		
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("data/datos.csv"));
-			String linea;     // 1; Poema del Gilgamesh
-			linea = br.readLine();
-			while ( linea != null ) {
-				String[] datos = linea.split(";");  // 1; 4; 6; 8 ---> |  1   |   4   | 6   | 8  |
-				System.out.println(datos[1]);
-				int id = Integer.parseInt(datos[0]);
-				String nombreLibro = datos[1];
-				
-				//Hay que hacer un cast para datos[0]
-				Libro libro1 = new Libro( id, nombreLibro);
-				adicionarLibro(libro1);
-				linea = br.readLine();
+			BufferedReader br = new BufferedReader( new FileReader("data/datos.csv") );
+			String linea;
+			
+			linea = br.readLine(); // Leí la primera línea
+			while( linea != null) {
+				String[] datos = linea.split(";");     // 1;Zoro;Manuel ---> |  1   |  Zoro |  Manuel |
+				int id = Integer.parseInt(datos[0]); //Vamos a sacar el primer número y a convertirlo en tipo int
+				String nombre = datos[1];
+				Libro l = new Libro(id, nombre);
+				adicionarLibro(l);		
+				linea = br.readLine(); //Lee la siguiente linea
 			}
-		} catch (Exception e) {
-			System.out.println("Hubo problema");
-		}
+		} catch (Exception excepcion) {
+			System.out.println("Hubo error en la carga de datos");
+		}	
 		
 	}
 	
@@ -324,5 +312,10 @@ public class Biblioteca {
 		// Si tengo un array primitivo, uso [ ]
 		// Si tengo un ArrayList, necesito llamar al método get
 		//System.out.println("El nombre del primer libro es: " + biblioteca1.libros.get(0).getNombre() );
+		
+		biblioteca1.adicionarLibro(40, "La insoportable levedad del ser");
+		System.out.println("El libro con id 40 es " + biblioteca1.libros.get(30).getNombre());
+		
+		
 	}
 }
