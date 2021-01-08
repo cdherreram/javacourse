@@ -8,7 +8,7 @@ package cajon.mundo;
  * @author Cristian David Herrera
  *
  */
-public class Figura {
+public class Figura implements Comparable<Figura> {
 	
 	public enum Tipo {
 		EQUILATERO,
@@ -183,6 +183,8 @@ public class Figura {
 		} else {
 			if ( lados[0].getLongitud() == lados[2].getLongitud()) {
 				return Tipo.ISOSCELES;
+			} else if ( lados[1].getLongitud() == lados[2].getLongitud( )) {
+				return Tipo.ISOSCELES;
 			} else {
 				return Tipo.ESCALENO;
 			}
@@ -190,13 +192,16 @@ public class Figura {
 	}
 
 	@Override
+	public int compareTo(Figura o) {
+		return (int) (o.calcularPerimetro() - this.calcularPerimetro());
+	}
+
+	@Override
 	/**
 	 * Método toString() para la clase Figura.
 	 */
 	public String toString( ) {
-		if ( esTriangulo( ) )
-			return "La figura es un triángulo " + determinarTipoTriangulo().toString() + " de perímetro " + calcularPerimetro() + ".\n"; 
-		else
-			return "La figura tiene " + getNumLados() + " lados y tiene un perimetro de " + calcularPerimetro()  + ".\n";
+		return "Figura con " + getNumLados() + " lados. "; 
 	}
+
 }

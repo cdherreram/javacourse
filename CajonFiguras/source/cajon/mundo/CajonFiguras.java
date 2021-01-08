@@ -25,8 +25,53 @@ public class CajonFiguras {
 	
 	public CajonFiguras ( ) {
 		figuras = new ArrayList<Figura>();
+		cargarTriangulos();
+		cargarFiguras();
 	}
 	
+	private void cargarFiguras() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("data/figuras.csv"));
+			String linea;
+			while ( (linea = br.readLine())!= null) {
+				String[] datos = linea.split(";");
+				int numLados = Integer.parseInt(datos[0]);
+				Punto[] puntos = new Punto[numLados];
+				for ( int i = 1; i < datos.length; i+=2) {
+					int x = Integer.parseInt(datos[i]);
+					int y = Integer.parseInt(datos[i+1]);
+					Punto p = new Punto(x, y);
+					puntos[(i-1)/2] = p;
+				}
+				Figura f = new Figura(numLados, puntos);
+				figuras.add(f);
+			}
+		} catch (Exception e) {
+			System.out.println("Hubo problema con la carga de datos.");
+		}
+	}
+
+	private void cargarTriangulos() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("data/triangulos.csv"));
+			String linea;
+			while ( (linea = br.readLine())!= null) {
+				String[] datos = linea.split(";");
+				int numLados = Integer.parseInt(datos[0]);
+				int x1 = Integer.parseInt(datos[1]);
+				int y1 = Integer.parseInt(datos[2]);
+				int x2 = Integer.parseInt(datos[3]);
+				int y2 = Integer.parseInt(datos[4]);
+				int x3 = Integer.parseInt(datos[5]);
+				int y3 = Integer.parseInt(datos[6]);
+				Figura f = new Figura(numLados, x1, y1, x2, y2, x3, y3);
+				figuras.add(f);
+			}
+		} catch (Exception e) {
+			System.out.println("Hubo problema con la carga de datos.");
+		}
+	}
+
 	//----------------
 	// Métodos
 	//----------------
@@ -56,7 +101,7 @@ public class CajonFiguras {
 		}
 		
 		return "La figura con mayor perímetro tiene " + lados + " lados, perimetro de "
-				+ perimetroMayor + " y está en la posicion " + indice;
+				+ perimetroMayor + " y está en la posicion " + (indice +1);
 	}
 	
 	/**
@@ -131,8 +176,91 @@ public class CajonFiguras {
 		}
 	}
 	
+	/**
+	 * Retorna la lista de figuras
+	 * @return Lista de figuras del cajón
+	 */
+	public ArrayList darFiguras() {
+		return figuras;
+	}
+	
 	
 	//TODO: Contar la cantidad de triángulos en el cajón de figuras.
+	
+	/**
+	 * Retorna la cantidad de triángulos que hay en el cajón
+	 * @return Número de triángulos en el cajón.
+	 */
+	public int darNumTriangulos() {
+		int conteo = 0;
+		for( Figura f : figuras) {
+			if ( f.esTriangulo()) conteo++;
+		}
+		
+		return conteo;
+	}
+	
+	/**
+	 * Determina la figura que tiene el menor perímetro
+	 * @return Figura con el menor perímetro y su posición.
+	 */
+	public String figuraConMenorPerimetro( ) {
+		if ( figuras.isEmpty()) return "No hay figuras";
+		
+		Figura figuraTmp = figuras.get(0);
+		double perimetroMenor = figuraTmp.calcularPerimetro();
+		int indice = 0;
+		int lados = figuras.get(0).getNumLados();
+		
+		for ( int i = 0; i < figuras.size(); i++) {
+			if(figuras.get(i).calcularPerimetro() < perimetroMenor) {
+				figuraTmp = figuras.get(i);
+				perimetroMenor = figuras.get(i).calcularPerimetro();
+				indice = i;
+				lados = figuras.get(i).getNumLados();
+			}
+		}
+		return "La figura con menor perímetro tiene " + lados + " lados, perimetro de "
+		+ perimetroMenor + " y está en la posicion " + indice;
+	}
+	
+	/**
+	 * Retorna el perímetro de las tres figuras con el mayor perímetro
+	 * en la lista figuras.
+	 * @return String con los valores de los tres perímetros más grandes. Si no hay suficientes figuras, retorna que no pudo calcular.
+	 */
+	public String figurasConMayorPerimetro() {
+		if ( figuras.size() <= 3)
+			return "No se pudo determinar las figuras con mayor perímetro";
+		
+		List<Figura> figurasOrdenadas = (List<Figura>) figuras.clone();
+		Collections.sort(figurasOrdenadas);
+//		for (Figura f: figuras) {
+//			System.out.println(f.calcularPerimetro());
+//		}
+		figurasOrdenadas.stream().map(s -> s.calcularPerimetro()).forEach(System.out::println);
+		
+		return "Figura 1: " + figurasOrdenadas.get(0).calcularPerimetro() + "\n"
+				+ "Figura 2: " + figurasOrdenadas.get(1).calcularPerimetro() + "\n"
+				+ "Figura 3: " + figurasOrdenadas.get(2).calcularPerimetro() + "\n";
+	}
+	
+	/**
+	 * Cuenta la cantidad de figuras que tienen un perímetro mayor a un valor
+	 * dado por parámetro.
+	 * @param perimetroMin Perímetro mínimo para comparar 
+	 * @return Cantidad de figuras
+	 */
+	public int contarFigurasConPerimetroMayorA( double perimetroMin ){
+		int contador = 0;
+		for ( Figura f: figuras) {
+			if ( f.calcularPerimetro() > perimetroMin) {
+				contador++;
+			}
+		}
+		
+		return contador;
+	}
 	
 	//-----------------
 	// Main del proyecto
@@ -142,6 +270,7 @@ public class CajonFiguras {
 	 * Main del proyecto CajonFiguras.
 	 * @param args No es necesario.
 	 */
+	
 	public static void main(String[] args) {
 		CajonFiguras cajon = new CajonFiguras();
 		System.out.println(cajon.figuraConMayorPerimetro());
@@ -156,5 +285,9 @@ public class CajonFiguras {
 		cajon.adicionarFigura(figura1);
 		System.out.println("Hay " + cajon.calcularNumFiguras() + " figuras.");
 		System.out.println(cajon.figuraConMayorPerimetro());
+		System.out.println(cajon.figurasConMayorPerimetro());
+		System.out.println("Hay " + cajon.contarFigurasConPerimetroMayorA(1000) +
+				" figuras con un perímetro mayor a 1 000");
+//		cajon.figuras.stream().map(s -> s.calcularPerimetro()).forEach(System.out::println);
 	}
 }
