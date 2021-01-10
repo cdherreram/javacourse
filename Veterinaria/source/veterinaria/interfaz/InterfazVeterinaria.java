@@ -45,7 +45,7 @@ public class InterfazVeterinaria extends JFrame {
 			public void run() {
 				try {
 					InterfazVeterinaria frame = new InterfazVeterinaria();
-					frame.setVisible(true);
+					frame.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
