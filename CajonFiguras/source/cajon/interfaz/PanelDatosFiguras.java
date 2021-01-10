@@ -2,6 +2,8 @@ package cajon.interfaz;
 
 import java.awt.*;
 import java.awt.Color;
+import java.text.DecimalFormat;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -17,6 +19,7 @@ public class PanelDatosFiguras extends JPanel {
 	private JTextField txtTipoTriangulo;
 	private JTextField txtNumLados;
 	private JTextField txtEsTriangulo;
+	DecimalFormat formato = new DecimalFormat("#.0");
 
 	/**
 	 * Create the panel.
@@ -30,10 +33,13 @@ public class PanelDatosFiguras extends JPanel {
 		labTipoTriangulo = new JLabel("Tipo de triángulo");
 		
 		txtNumLados = new JTextField();
+		txtNumLados.setHorizontalAlignment(JTextField.CENTER);
 		txtNumLados.setEditable(false);
 		txtEsTriangulo = new JTextField();
+		txtEsTriangulo.setHorizontalAlignment(JTextField.CENTER);
 		txtEsTriangulo.setEditable(false);
 		txtTipoTriangulo = new JTextField();
+		txtTipoTriangulo.setHorizontalAlignment(JTextField.CENTER);
 		txtTipoTriangulo.setEditable(false);
 		
 		add(labNumLados);
@@ -46,7 +52,7 @@ public class PanelDatosFiguras extends JPanel {
 	
 	public void mostrarDatos( Figura figura) {
 		txtNumLados.setText(figura.getNumLados() + "");
-		txtEsTriangulo.setText( figura.calcularPerimetro()+ " " );
+		txtEsTriangulo.setText( formato.format(figura.calcularPerimetro() ));
 		txtTipoTriangulo.setText(figura.determinarTipoTriangulo().toString());
 	}
 }

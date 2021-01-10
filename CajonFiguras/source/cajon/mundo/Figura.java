@@ -3,6 +3,8 @@
  */
 package cajon.mundo;
 
+import java.text.DecimalFormat;
+
 /**
  * Clase que modela una figura.
  * @author Cristian David Herrera

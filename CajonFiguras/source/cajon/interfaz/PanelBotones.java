@@ -69,7 +69,9 @@ public class PanelBotones extends JPanel implements ActionListener {
 			String recibido = JOptionPane.showInputDialog("Determine el perímetro mínimo:");
 			try {
 				double perimetro = Double.parseDouble(recibido);
-				JOptionPane.showMessageDialog(this, principal.getCajonFiguras().contarFigurasConPerimetroMayorA(perimetro));
+				String s = "Hay " + principal.getCajonFiguras().contarFigurasConPerimetroMayorA(perimetro) +
+						" figuras con perímetro menor a " + recibido + ".";
+				JOptionPane.showMessageDialog(this, s);
 				
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(this, "El valor recibido no es válido");

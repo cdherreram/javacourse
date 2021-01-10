@@ -5,6 +5,7 @@ package cajon.mundo;
 
 import java.io.*;
 import java.util.*;
+import java.text.*;
 
 /**
  * Clase que modela un cajón de figuras.
@@ -14,7 +15,8 @@ import java.util.*;
 
 public class CajonFiguras {
 
-	private ArrayList<Figura> figuras;
+	private ArrayList<Figura> figuras; //package -protected 
+	DecimalFormat formato = new DecimalFormat("#.0");
 	
 	//----------------
 	// Constructor
@@ -101,7 +103,7 @@ public class CajonFiguras {
 		}
 		
 		return "La figura con mayor perímetro tiene " + lados + " lados, perimetro de "
-				+ perimetroMayor + " y está en la posicion " + (indice +1);
+				+ formato.format(perimetroMayor) + " y está en la posicion " + (indice +1);
 	}
 	
 	/**
@@ -221,7 +223,7 @@ public class CajonFiguras {
 			}
 		}
 		return "La figura con menor perímetro tiene " + lados + " lados, perimetro de "
-		+ perimetroMenor + " y está en la posicion " + indice;
+		+ formato.format(perimetroMenor) + " y está en la posicion " + indice;
 	}
 	
 	/**
@@ -235,14 +237,13 @@ public class CajonFiguras {
 		
 		List<Figura> figurasOrdenadas = (List<Figura>) figuras.clone();
 		Collections.sort(figurasOrdenadas);
-//		for (Figura f: figuras) {
-//			System.out.println(f.calcularPerimetro());
-//		}
-		figurasOrdenadas.stream().map(s -> s.calcularPerimetro()).forEach(System.out::println);
 		
-		return "Figura 1: " + figurasOrdenadas.get(0).calcularPerimetro() + "\n"
-				+ "Figura 2: " + figurasOrdenadas.get(1).calcularPerimetro() + "\n"
-				+ "Figura 3: " + figurasOrdenadas.get(2).calcularPerimetro() + "\n";
+		// Sirve para hacer una iteración e imprimir cada perímetro en la lista
+		//figurasOrdenadas.stream().map(s -> s.calcularPerimetro()).forEach(System.out::println);
+		
+		return "Figura 1: " + formato.format(figurasOrdenadas.get(0).calcularPerimetro()) + "\n"
+				+ "Figura 2: " + formato.format(figurasOrdenadas.get(1).calcularPerimetro()) + "\n"
+				+ "Figura 3: " + formato.format(figurasOrdenadas.get(2).calcularPerimetro()) + "\n";
 	}
 	
 	/**
@@ -288,6 +289,5 @@ public class CajonFiguras {
 		System.out.println(cajon.figurasConMayorPerimetro());
 		System.out.println("Hay " + cajon.contarFigurasConPerimetroMayorA(1000) +
 				" figuras con un perímetro mayor a 1 000");
-//		cajon.figuras.stream().map(s -> s.calcularPerimetro()).forEach(System.out::println);
 	}
 }

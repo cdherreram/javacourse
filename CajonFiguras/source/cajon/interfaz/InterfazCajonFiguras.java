@@ -40,6 +40,13 @@ public class InterfazCajonFiguras extends JFrame {
 	
 	public void verDatos( Figura figura) {
 		panelDatosFiguras.mostrarDatos(figura);
+		panelFiguras.actualizarFiguras(figura);
+		JComponent panel = panelFiguras;
+		panel.repaint();
+	}
+	
+	public CajonFiguras getCajonFiguras () {
+		return cajonFiguras;
 	}
 	
 	private void actualizarLista ( ) {
@@ -47,9 +54,6 @@ public class InterfazCajonFiguras extends JFrame {
 	}
 	
 	
-	public CajonFiguras getCajonFiguras () {
-		return cajonFiguras;
-	}
 	/**
 	 * Generación de paneles en el frame
 	 * @param f Frame

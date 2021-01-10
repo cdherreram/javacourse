@@ -44,7 +44,7 @@ public class PanelListaFiguras extends JPanel implements ListSelectionListener {
 	
 	public void refrescarLista( ArrayList lista) {
 		listaFiguras.setListData(lista.toArray());
-		listaFiguras.setSelectedIndex(0);
+		listaFiguras.setSelectedIndex(-1);
 	}
 
 	public void seleccionar( int seleccionado )
