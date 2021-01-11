@@ -30,7 +30,7 @@ public class PanelMedicos extends JPanel implements ActionListener {
 		setPreferredSize( new Dimension(133, 180));
 		setForeground( Color.BLUE);
 		
-		TitledBorder border = BorderFactory.createTitledBorder( "Médicos");
+		TitledBorder border = BorderFactory.createTitledBorder( "Personal");
 		border.setTitleColor(Color.LIGHT_GRAY);
 		setBorder(border);
 		
