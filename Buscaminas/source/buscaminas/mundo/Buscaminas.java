@@ -57,21 +57,7 @@ public class Buscaminas {
 	}
 	
 	public void inicializar() {
-		int conteoBombas = 0;
-		//Creación de casillas y asignación de bombas
-		for(int i = 0; i < numFilas; i++) {
-			for ( int j = 0; j < numColumnas; j++) {
-				tablero[i][j] = new Casilla(false, 0);
-				double numCasillasTotal = numFilas * numColumnas;
-				double aleatorio = Math.random();
-				if (conteoBombas < nivelJuego.getNumBombas() ) {
-					if (aleatorio > 0.75) {
-						tablero[i][j].setConBomba(true);
-						conteoBombas++;
-					}
-				}
-			}
-		}
+		inicializarBombas();
 
 		//TODO: Mejorar implementación para elegir aleatoriamente las casillas de las bombas
 
@@ -93,9 +79,27 @@ public class Buscaminas {
 				}
 			}
 		}
-		imprimirTablero();
+//		imprimirTablero();
 	}
 	
+	private void inicializarBombas() {
+		int conteoBombas = 0;
+		//Creación de casillas y asignación de bombas
+		for(int i = 0; i < numFilas; i++) {
+			for ( int j = 0; j < numColumnas; j++) {
+				tablero[i][j] = new Casilla(false, 0);
+				double numCasillasTotal = numFilas * numColumnas;
+				double aleatorio = Math.random();
+				if (conteoBombas < nivelJuego.getNumBombas() ) {
+					if (aleatorio > 0.75) {
+						tablero[i][j].setConBomba(true);
+						conteoBombas++;
+					}
+				}
+			}
+		}
+	}
+
 	private void imprimirTablero() {
 		for ( int i = 0; i < numFilas;i++) {
 			for ( int j = 0; j < numColumnas; j++) {
@@ -111,8 +115,6 @@ public class Buscaminas {
 		}
 	}
 	
-	
-
 	private int conteo(int posFilas, int posColumnas) {
 		if ( posFilas >= 0 && posFilas < numFilas && posColumnas >= 0 && posColumnas < numColumnas)
 			return tablero[posFilas][posColumnas].isConBomba() ? 1 : 0;

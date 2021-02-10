@@ -1,25 +1,22 @@
 package buscaminas.interfaz;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-
-import buscaminas.mundo.Nivel;
-
+import javax.swing.border.*;
+import buscaminas.mundo.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class PanelBotones extends JPanel implements ActionListener{
 	
 	JButton iniciarJuego;
 	JButton cambiarNivel;
-	InterfazBuscaminas interfaz;
+	InterfazBuscaminas principal;
 	
-	public PanelBotones(InterfazBuscaminas principal) {
+	public PanelBotones(InterfazBuscaminas interfaz) {
 		GridLayout layout = new GridLayout(2,1, 5,5);
 		setLayout(layout);
 		
-		interfaz = principal;
+		principal = interfaz;
 		
 		iniciarJuego = new JButton("Reiniciar");
 		iniciarJuego.addActionListener(this);
@@ -33,14 +30,11 @@ public class PanelBotones extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ( e.getSource() == iniciarJuego) {
-			interfaz.inicializarJuego();
+			principal.inicializarJuego(principal.getBuscaminas().getNivelJuego());
 		}
-//		else if ( e.getSource() == cambiarNivel) {
-//			VentanaNivel ventana = new VentanaNivel();
-//			if ( ventana.getDefaultCloseOperation() == 1) {
-//				interfaz.inicializar(ventana.getInfo());				
-//			}
-//		}
+		else if ( e.getSource() == cambiarNivel) {
+			VentanaNivel ventana = new VentanaNivel(principal);
+		}
 		
 	}
 }

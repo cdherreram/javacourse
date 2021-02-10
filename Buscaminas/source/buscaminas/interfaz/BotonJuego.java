@@ -16,7 +16,7 @@ public class BotonJuego extends JButton {
 	private Casilla casillaBoton;
 	
 	public BotonJuego( Casilla casilla) {
-		Dimension d = new Dimension(30,30);
+		Dimension d = new Dimension(25,25);
 		setPreferredSize(d);
 		setMinimumSize(d);
 		setMaximumSize(d);
@@ -28,9 +28,11 @@ public class BotonJuego extends JButton {
 		inicializarCasilla();
 	}
 	
-	private void inicializarCasilla ( ) {
+	public void inicializarCasilla ( ) {
 		estado = CASILLA_CUBIERTA;
 		icono = new JLabel("");
+		setText("");
+		setIcon(null);
 		setEnabled(true);
 	}
 
@@ -59,16 +61,17 @@ public class BotonJuego extends JButton {
 	}
 	
 	public void actualizarBoton( ) {
-		if ( estado == CASILLA_DESCUBIERTA) {
+		if ( estado == CASILLA_DESCUBIERTA ) {
 			this.setEnabled(false);
 			if ( casillaBoton.isConBomba()) {
 				setIcon( new ImageIcon("img/bomba.png"));
 			} else {
-				setText(casillaBoton.getNumBombasAlrededor() + "");				
+				Font fuente = new Font("Calibri", 3, 18);
+				setFont(fuente);
+				setText(casillaBoton.getNumBombasAlrededor() + "");
 			}
-		} else {
+		} else if ( estado == CASILLA_CUBIERTA ){
 			this.setEnabled(true);
-			
 		}
 	}
 	

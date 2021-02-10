@@ -18,16 +18,22 @@ public class PanelJuego extends JPanel implements ActionListener{
 	private BotonJuego[][] mallaBotones;
 	
 	public PanelJuego(Buscaminas busc) {
-		System.out.println("Hay " + this.getComponentCount() + " componentes.");
 		setFocusable(true);
 		requestFocusInWindow();
 		buscaminas = busc;
 		estadoPanel = JUEGO_INICIADO;
 		this.nivel = buscaminas.getNivelJuego();
 	}
+	
+	public Buscaminas getBuscaminas() {
+		return buscaminas;
+	}
+
+	public void setBuscaminas(Buscaminas buscaminas) {
+		this.buscaminas = buscaminas;
+	}
 
 	public void dibujarPanel() {
-		this.removeAll();
 		numFilas = nivel.getCasillasFilas();
 		numColumnas = nivel.getCasillasColumnas();
 		
@@ -43,7 +49,16 @@ public class PanelJuego extends JPanel implements ActionListener{
 				add(mallaBotones[i][j]);
 			}
 		}
-		actualizarPanel();
+		reiniciarBotones();
+	}
+	
+	public void reiniciarBotones() {
+		for (int i = 0; i < numFilas; i++) {
+			for (int j = 0; j < numColumnas; j++) {
+				mallaBotones[i][j].setCasillaBoton(buscaminas.getCasilla(i, j));
+				mallaBotones[i][j].inicializarCasilla();
+			}
+		}
 	}
 	
 	public void dibujarPanel(Nivel nivel) {
@@ -64,16 +79,14 @@ public class PanelJuego extends JPanel implements ActionListener{
 				add(mallaBotones[i][j]);
 			}
 		}
+		reiniciarBotones();
 		actualizarPanel();
 	}
 	
-	private void cambiarPanel() {
-		if ( estadoPanel == JUEGO_FINALIZADO) {
-			for ( int i = 0; i < numFilas; i++) {
-				for ( int j = 0; j < numColumnas ; j++) {
-					mallaBotones[i][j].setEstado(BotonJuego.CASILLA_DESCUBIERTA);
-					mallaBotones[i][j].actualizarBoton();
-				}
+	private void finalizarJuego() {
+		for ( int i = 0; i < numFilas; i++) {
+			for ( int j = 0; j < numColumnas ; j++) {
+				mallaBotones[i][j].setEstado(BotonJuego.CASILLA_DESCUBIERTA);
 			}
 		}
 	}
@@ -85,7 +98,6 @@ public class PanelJuego extends JPanel implements ActionListener{
 			}
 		}
 	}
-
 
 	private void cambiarEstadosCasillas(int fila, int columna) {
 		if ( fila >= 0 && fila < numFilas && columna >= 0 && columna < numColumnas && mallaBotones[fila][columna].getEstado() != BotonJuego.CASILLA_DESCUBIERTA) {
@@ -110,7 +122,8 @@ public class PanelJuego extends JPanel implements ActionListener{
 		int columna = Integer.parseInt(casillas[1]);
 		Casilla casillaActual = buscaminas.getCasilla(fila, columna);
 		if ( casillaActual.isConBomba() ) {
-			estadoPanel = JUEGO_FINALIZADO;
+			this.estadoPanel = JUEGO_FINALIZADO;
+			finalizarJuego();
 		} else {
 			if ( casillaActual.getNumBombasAlrededor() > 0) {
 				mallaBotones[fila][columna].setEstado(BotonJuego.CASILLA_DESCUBIERTA);
@@ -118,7 +131,6 @@ public class PanelJuego extends JPanel implements ActionListener{
 				cambiarEstadosCasillas ( fila, columna);
 			}
 		}
-		cambiarPanel();
 		actualizarPanel();
 	}
 }
