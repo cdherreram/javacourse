@@ -60,6 +60,14 @@ public class BotonJuego extends JButton {
 		this.casillaBoton = casillaBoton;
 	}
 	
+	public void actualizarIcono( ) {
+		if ( getIcon() == null) {
+			setIcon(new ImageIcon("img/bandera.png"));
+		} else {
+			setIcon(null);
+		}
+	}
+	
 	public void actualizarBoton( ) {
 		if ( estado == CASILLA_DESCUBIERTA ) {
 			this.setEnabled(false);
@@ -68,7 +76,10 @@ public class BotonJuego extends JButton {
 			} else {
 				Font fuente = new Font("Calibri", 3, 18);
 				setFont(fuente);
-				setText(casillaBoton.getNumBombasAlrededor() + "");
+				setIcon(null);
+				if (casillaBoton.getNumBombasAlrededor() != 0) {
+					setText(casillaBoton.getNumBombasAlrededor() + "");					
+				}
 			}
 		} else if ( estado == CASILLA_CUBIERTA ){
 			this.setEnabled(true);

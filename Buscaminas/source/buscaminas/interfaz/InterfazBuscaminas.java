@@ -25,7 +25,7 @@ public class InterfazBuscaminas extends JFrame {
 		
 		panelBotones = new PanelBotones(this);
 		buscaminas = new Buscaminas();
-		panelJuego = new PanelJuego(buscaminas);
+		panelJuego = new PanelJuego(this,buscaminas);
 		panelJuego.dibujarPanel();
 
 		GridBagConstraints constrains = new GridBagConstraints();
@@ -60,7 +60,7 @@ public class InterfazBuscaminas extends JFrame {
 			this.setSize(NEXPERTO);
 		this.setLocation(LOCACION);
 		buscaminas = new Buscaminas(pNivel);
-		panelJuego = new PanelJuego(buscaminas);
+		panelJuego = new PanelJuego(this,buscaminas);
 		panelJuego.dibujarPanel(pNivel);
 		GridBagConstraints constrains = new GridBagConstraints();
 		constrains.insets = new Insets(3, 3, 3, 3);

@@ -57,11 +57,34 @@ public class Buscaminas {
 	}
 	
 	public void inicializar() {
+		
+		crearCasillas();
 		inicializarBombas();
-
-		//TODO: Mejorar implementación para elegir aleatoriamente las casillas de las bombas
-
-		//Conteo de bombas para inicializar el tablero
+		conteoBombas();
+		imprimirTablero();
+	}
+	
+	private void crearCasillas() {
+		for(int i = 0; i < numFilas; i++) {
+			for ( int j = 0; j < numColumnas; j++) {
+				tablero[i][j] = new Casilla(false, 0);
+			}
+		}
+	}
+	
+	private void inicializarBombas() {
+		int conteoBombas = 0;
+		while ( conteoBombas < nivelJuego.getNumBombas()) {
+			int filaAleatoria = (int) (Math.random()*numFilas);
+			int columnaAleatoria = (int) (Math.random()*numColumnas);
+			if (!tablero[filaAleatoria][columnaAleatoria].isConBomba()) {
+				tablero[filaAleatoria][columnaAleatoria].setConBomba(true);
+				conteoBombas++;
+			}
+		}
+	}
+	
+	private void conteoBombas() {
 		for ( int i = 0; i < numFilas; i++) {
 			for ( int j = 0; j < numColumnas; j++) {
 				if ( !tablero[i][j].isConBomba()) {
@@ -76,25 +99,6 @@ public class Buscaminas {
 					conteo += conteo(i-1,j); //Superior
 					conteo += conteo(i-1,j+1); //Superior derecha 
 					tablero[i][j].setNumBombasAlrededor(conteo);
-				}
-			}
-		}
-//		imprimirTablero();
-	}
-	
-	private void inicializarBombas() {
-		int conteoBombas = 0;
-		//Creación de casillas y asignación de bombas
-		for(int i = 0; i < numFilas; i++) {
-			for ( int j = 0; j < numColumnas; j++) {
-				tablero[i][j] = new Casilla(false, 0);
-				double numCasillasTotal = numFilas * numColumnas;
-				double aleatorio = Math.random();
-				if (conteoBombas < nivelJuego.getNumBombas() ) {
-					if (aleatorio > 0.75) {
-						tablero[i][j].setConBomba(true);
-						conteoBombas++;
-					}
 				}
 			}
 		}
@@ -121,5 +125,7 @@ public class Buscaminas {
 		return 0;
 	}
 	
-	
+	public static void main(String[] args) {
+		new Buscaminas();
+	}
 }
